@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Docker Build '){
             steps{
-                sh "docker build . -t mrofficialnah/Java-project:${commit_id()} "
+                sh "docker build . -t mrofficialnah/java-project:${commit_id()} "
                 }
             }
         stage ('Docker push') {
@@ -21,15 +21,15 @@ pipeline {
                withCredentials([string(credentialsId: 'Docker-Hub', variable: 'hubPwd')])
                    {             
                    sh "docker login -u mrofficialnah -p ${hubPwd}"
-                   sh "docker push mrofficialnah/Java-project:${commit_id()}"
+                   sh "docker push mrofficialnah/java-project:${commit_id()}"
                 }    
             }
         }
         stage('Docker Deploy') {
             steps {
                 sshagent(['docker-host']) {
-                    sh "ssh -o StrictHostKeyChecking=no docker rm -f Java-project"
-                    sh " docker run -d -p 8084:8080 --name Java-project mrofficialnah/Java-project:${commit_id()}"
+                    sh "ssh -o StrictHostKeyChecking=no docker rm -f java-project"
+                    sh "docker run -d -p 8084:8080 --name java-project mrofficialnah/java-project:${commit_id()}"
                 }
             }
             
