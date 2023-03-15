@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+    DOCKERHUB_CREDENTIALS = credentials('valaxy-dockerhub')
+    }
     stages {
         
         stage('Maven Build package'){
