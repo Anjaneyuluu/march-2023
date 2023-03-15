@@ -19,6 +19,11 @@ pipeline {
                 sh "docker build . -t mrofficialnah/java-project:${commit_id()} "
                 }
             }
+        stage('Login') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                }
+            }    
         stage ('Docker push') {
             steps {
                withCredentials([string(credentialsId: 'Docker-Hub', variable: 'hubPwd')])
