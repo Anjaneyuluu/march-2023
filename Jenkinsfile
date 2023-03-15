@@ -26,7 +26,7 @@ pipeline {
             }    
         stage ('Docker push') {
             steps {             
-                   sh "docker login -u mrofficialnah -p ${hubPwd}"
+                   sh "docker login -u mrofficialnah -p ${DOCKERHUB_CREDENTIALS}"
                    sh "docker push mrofficialnah/java-project:${commit_id()}"   
                   }
             }
