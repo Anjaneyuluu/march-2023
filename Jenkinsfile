@@ -25,14 +25,11 @@ pipeline {
                 }
             }    
         stage ('Docker push') {
-            steps {
-               withCredentials([string(credentialsId: 'Docker-Hub', variable: 'hubPwd')])
-                   {             
+            steps {             
                    sh "docker login -u mrofficialnah -p ${hubPwd}"
-                   sh "docker push mrofficialnah/java-project:${commit_id()}"
-                }    
+                   sh "docker push mrofficialnah/java-project:${commit_id()}"   
+                  }
             }
-        }
         stage('Docker Deploy') {
             steps {
                 sshagent(['docker-host']) {
