@@ -3,16 +3,17 @@ pipeline {
     stages {
         
         stage('Maven Build package'){
-            tools {
-                Maven 'Maven 3.6.3'
-            }
             steps {
-                sh "mvn clean package"
+                sh '''
+                    export MAVEN_HOME=/opt/apache-maven-3.6.3
+                    export PATH=$PATH:${MAVEN_HOME}/bin
+                    mvn clean package
+                '''
             }
         }
         stage('Docker Build '){
             steps{
-                sh " docker build . -t mrofficialnah/Java-project:${commit_id()} "
+                sh "docker build . -t mrofficialnah/Java-project:${commit_id()} "
                 }
             }
         stage ('Docker push') {
